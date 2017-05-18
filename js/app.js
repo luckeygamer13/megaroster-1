@@ -19,6 +19,13 @@ class Megaroster {
     localStorage.setItem('roster', JSON.stringify(this.students))
   }
 
+  changed(ev, student) {
+    student.name = ev.target.innerText
+    console.log({ ev, student, })
+
+    this.save()
+  }
+
   load() {
     const rosterString = localStorage.getItem('roster')
     if (rosterString) {
@@ -27,6 +34,7 @@ class Megaroster {
         .reverse()
         .map(this.addStudent.bind(this))
     }
+
   }
 
   removeStudent(ev) {
@@ -117,6 +125,10 @@ class Megaroster {
     li
       .querySelector('button.move-down')
       .addEventListener('click', this.moveDown.bind(this, student))
+
+    li
+    .querySelector('span.student-name')
+    .addEventListener("blur", (ev) => this.changed(ev, student))
 
   }
 
